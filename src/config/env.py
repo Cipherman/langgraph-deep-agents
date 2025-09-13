@@ -15,7 +15,6 @@ class EnvConfig(BaseModel):
 
 
 def setup_env():
-    # os.environ[""]
     project_root = Path(__file__).resolve().parent.parent.parent
     env_path = project_root / ".env"
 
