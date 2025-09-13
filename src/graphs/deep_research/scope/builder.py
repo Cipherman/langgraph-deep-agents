@@ -3,6 +3,7 @@ from langgraph.graph import StateGraph, START, END
 from .types import AgentState, AgentInputState
 from .nodes import clarify_with_user, write_research_brief
 
+
 def build_scope_graph():
     builder = StateGraph(AgentState, input_schema=AgentInputState)
 

@@ -1,4 +1,4 @@
-""" Scoping Types """
+"""Scoping Types"""
 
 import operator
 from typing_extensions import Optional, Annotated, Sequence
@@ -13,6 +13,7 @@ from pydantic import BaseModel
 class AgentInputState(MessagesState):
     pass
 
+
 class AgentState(MessagesState):
     research_brief: Optional[str]
     supervisor_messages: Annotated[Sequence[BaseMessage], add_messages]
@@ -20,11 +21,13 @@ class AgentState(MessagesState):
     notes: Annotated[list[str], operator.add] = []
     final_report: str
 
+
 # Structured Output Schema
 class ClarifyWithUser(BaseModel):
-    need_clarification: bool 
+    need_clarification: bool
     question: str
     verification: str
+
 
 class ResearchQuestion(BaseModel):
     research_brief: str
