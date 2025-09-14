@@ -22,8 +22,9 @@ def think_tool(reflection: str) -> str:
     
     Args:
         reflection: Your detailed reflection on research progress, findings, gaps, and next steps
-        
+
     Returns:
         Confirmation that reflection was recorded for decision-making
     """
+    
     return f"Reflection recorded: {reflection}"

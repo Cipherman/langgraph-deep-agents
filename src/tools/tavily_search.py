@@ -8,8 +8,8 @@ from tavily import TavilyClient
 
 from src.utils import get_today_str
 from src.agents.llm import summarize_llm
-from src.prompts.deep_research.research import (summarize_webpage_prompt,
-                                                compress_research_system_prompt)
+from src.prompts.deep_research.research import summarize_webpage_prompt
+
 
 class Summary(BaseModel):
     summary: str
