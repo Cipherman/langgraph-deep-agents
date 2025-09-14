@@ -11,4 +11,5 @@ dependencies = [
     "langgraph>=0.6.7",
     "pydantic>=2.11.9",
     "ruff>=0.13.0",
+    "tavily-python>=0.7.12",
 ]

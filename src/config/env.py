@@ -1,18 +1,10 @@
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
-from typing import Optional
-from pydantic import BaseModel, Field
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-
-class EnvConfig(BaseModel):
-    llm_api_key: str
-    llm_base_url: Optional[str] = None
-    llm_model: str = Field(default="anthropic:claude-3-5-haiku-latest")
-
 
 def setup_env():
     project_root = Path(__file__).resolve().parent.parent.parent
