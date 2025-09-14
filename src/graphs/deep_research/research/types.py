@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from langchain_core.messages import BaseMessage
 from langgraph.graph.message import add_messages
 
+
 # State Definitions
 class ResearcherState(TypedDict):
     researcher_messages: Annotated[Sequence[BaseMessage], add_messages]
@@ -12,10 +13,12 @@ class ResearcherState(TypedDict):
     compressed_research: str
     raw_notes: Annotated[List[str], operator.add]
 
+
 class ResearchOutputState(TypedDict):
     compressed_research: str
     raw_notes: Annotated[List[str], operator.add]
     researcher_messages: Annotated[Sequence[BaseMessage], add_messages]
+
 
 # Structured Output Schemas
 class ClarifyWithUser(BaseModel):
@@ -23,8 +26,10 @@ class ClarifyWithUser(BaseModel):
     question: str
     verification: str
 
+
 class ResearchQuestion(BaseModel):
     research_brief: str
+
 
 class Summary(BaseModel):
     summary: str

@@ -15,14 +15,16 @@ class Summary(BaseModel):
     summary: str
     key_excerpts: str
 
+
 tavily_client = TavilyClient()
 
+
 def tavily_search_multiple(
-        search_queries: List[str],
-        max_results: int = 3,
-        topic: Literal["general", "news", "finance"] = "general",
-        include_raw_content: bool = True,
-)-> List[dict]:
+    search_queries: List[str],
+    max_results: int = 3,
+    topic: Literal["general", "news", "finance"] = "general",
+    include_raw_content: bool = True,
+) -> List[dict]:
     # Note: can use AsyncTavilyClient for parallization
     search_docs = []
     for query in search_queries:
@@ -41,60 +43,63 @@ def summarize_webpage_content(webpage_content: str) -> str:
     try:
         struct_llm = summarize_llm.with_structured_output(Summary)
 
-        summary = struct_llm.invoke([
-          HumanMessage(content=summarize_webpage_prompt.format(
-              webpage_content=webpage_content,
-              date=get_today_str(),
-          ))  
-        ])
+        summary = struct_llm.invoke(
+            [
+                HumanMessage(
+                    content=summarize_webpage_prompt.format(
+                        webpage_content=webpage_content,
+                        date=get_today_str(),
+                    )
+                )
+            ]
+        )
 
         formatted_summary = (
             f"<summary>\n{summary.summary}\n</summary>\n\n"
             f"<key_excerpts>\n{summary.key_excerpts}\n</key_excerpts>"
-        )   
+        )
 
         return formatted_summary
-    
+
     except Exception as e:
         print(f"Failed to summarize webpage: {str(e)}")
-        return webpage_content[:1000] + "..." if len(webpage_content) > 1000 else webpage_content
+        return (
+            webpage_content[:1000] + "..."
+            if len(webpage_content) > 1000
+            else webpage_content
+        )
 
 
 def deduplicate_search_results(search_results: List[dict]) -> dict:
-
     unqiue_results = {}
 
     for response in search_results:
-        for result in response['results']:
-            url = result['url']
+        for result in response["results"]:
+            url = result["url"]
             if url not in unqiue_results:
                 unqiue_results[url] = result
-    
+
     return unqiue_results
 
 
 def process_search_results(unique_results: dict) -> dict:
-
     summarized_results = {}
 
     for url, result in unique_results.items():
-
         if not result.get("raw_content"):
-            content = result['content']
-        else: 
+            content = result["content"]
+        else:
             content = summarize_webpage_content(result["raw_content"])
 
-        summarized_results[url] = {
-            'title': result['title'],
-            'content': content
-        }
+        summarized_results[url] = {"title": result["title"], "content": content}
 
     return summarized_results
+
 
 def format_search_output(summarized_results: dict) -> str:
     if not summarized_results:
         return "No valide search results found."
-    
+
     formatted_output = "Search results: \n\n"
 
     for i, (url, result) in enumerate(summarized_results.items(), 1):
@@ -110,7 +115,9 @@ def format_search_output(summarized_results: dict) -> str:
 def tavily_search(
     query: str,
     max_results: Annotated[int, InjectedToolArg] = 3,
-    topic: Annotated[Literal["general", "news", "finance"], InjectedToolArg] = "general",
+    topic: Annotated[
+        Literal["general", "news", "finance"], InjectedToolArg
+    ] = "general",
 ) -> str:
     """Fetch results from Tavily search API with content summarization.
 

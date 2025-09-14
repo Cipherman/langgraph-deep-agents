@@ -3,6 +3,7 @@ from langgraph.graph import StateGraph, START, END
 from .types import ResearcherState, ResearchOutputState
 from .nodes import llm_call, tool_node, compress_research, should_continue
 
+
 def build_research_graph():
     builder = StateGraph(ResearcherState, output_schema=ResearchOutputState)
 

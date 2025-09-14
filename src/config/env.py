@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def setup_env():
     project_root = Path(__file__).resolve().parent.parent.parent
     env_path = project_root / ".env"
