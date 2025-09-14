@@ -1,6 +1,6 @@
 import operator
 from typing_extensions import TypedDict, Annotated, List, Sequence
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from langchain_core.messages import BaseMessage
 from langgraph.graph.message import add_messages
 
